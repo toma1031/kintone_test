@@ -1,7 +1,9 @@
 (() => {
   "use strict";
   // Item MasterのアプリID
-  // アプリIDはアプリのURLの末尾の番号（https://myappurl.kintone.com/k/7/の7）
+  // アプリIDはアプリのURLの末尾の番号（https://06kbu1f4vjf5.kintone.com/k/7/の7）
+  // 参照
+  // https://support.kincone.com/hc/ja/articles/4411880749081-kintone%E9%80%A3%E6%90%BA-%E3%82%A2%E3%83%97%E3%83%AAID%E3%81%AE%E7%A2%BA%E8%AA%8D
   const ITEM_APP_ID = 7;
   
   // 参照
@@ -26,9 +28,11 @@
 
   // 参照
   // https://kintone.dev/en/docs/kintone/js-api/events/record-create-events/save-event/
+  // app.record.create.submitはレコードの新規作成時に「保存」ボタンが押された時点で実行されます。ただし、レコードが実際に保存される前の段階です。
   // 注文登録時に在庫チェック
   kintone.events.on('app.record.create.submit', async (event) => {
     try {
+      // ここで注文が入ったItemのitem_codeとquantity(注文数)を取得
       const record = event.record;
       const itemCode = record.item_code.value;
       const quantity = Number(record.qty.value);
@@ -65,9 +69,11 @@
 
   // 参照
   // https://kintone.dev/en/docs/kintone/js-api/events/record-create-events/save-event/
+  // app.record.create.submit.successはレコードの新規作成が成功し、レコードが実際に保存された後に実行されます。
   // 注文登録成功後に在庫更新
   kintone.events.on('app.record.create.submit.success', async (event) => {
     try {
+      // ここで注文が入ったItemのitem_codeとquantity(注文数)を取得
       const record = event.record;
       const itemCode = record.item_code.value;
       const quantity = Number(record.qty.value);
